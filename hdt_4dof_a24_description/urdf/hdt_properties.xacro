@@ -1,0 +1,284 @@
+<?xml version="1.0"?>
+<robot name="hdt_arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- default inertia - set to non-zero values based on recommendations from ROS.org
+        http://wiki.ros.org/urdf/Tutorials/Adding%20Physical%20and%20Collision%20Properties%20to%20a%20URDF%20Model-->
+    <xacro:macro name="default_inertia">
+           <inertia
+           ixx="0.00001" ixy="0.0" ixz="0.0"
+           iyy="0.00001" iyz="0.0"
+           izz="0.00001"/>
+    </xacro:macro>
+
+    <!-- properties of H032018 - SHAREABLE - A48 PEDESTAL ASSY -->
+    <xacro:property name="H032018_mass" value="0.099"/>
+    <xacro:macro name="H032018_inertia">
+        <inertia
+        ixx="0.000073" ixy="-0.000006" ixz="0.000002"
+        iyy="0.000074" iyz="0.000005"
+        izz="0.000079"/>
+    </xacro:macro>
+
+    <!-- properties of H031213 - SHAREABLE - A48 DRIVE MODULE - TORQUE SENSING -->
+    <xacro:property name="H031213_mass" value="0.367"/>
+    <xacro:macro name="H031213_inertia">
+        <inertia
+        ixx="0.000229" ixy="0.000000" ixz="0.000000"
+        iyy="0.000234" iyz="0.000000"
+        izz="0.000112"/>
+    </xacro:macro>
+
+    <!-- properties of H032627- SHAREABLE - A48 DRIVE MODULE - NON TORQUE SENSING -->
+    <xacro:property name="H032627_mass" value="0.367"/>
+    <xacro:macro name="H032627_inertia">
+        <inertia
+        ixx="0.000229" ixy="0.000000" ixz="0.000000"
+        iyy="0.000234" iyz="0.000000"
+        izz="0.000112"/>
+    </xacro:macro>
+
+    <!-- properties of H032690 - SHAREABLE - PROXIMAL TUBE ASSY, AXIAL-AXIAL, 351MM -->
+    <xacro:property name="H032690_mass" value="0.195"/>
+    <xacro:macro name="H032690_inertia">
+        <inertia
+        ixx="0.000027" ixy="-0.000001" ixz="0.000000"
+        iyy="0.002919" iyz="0.000000"
+        izz="0.002919"/>
+    </xacro:macro>
+
+    <!-- properties of H032698 - SHAREABLE - A48 ELBOW BRACKET COMPUTER ASSY -->
+    <xacro:property name="H032698_mass" value="0.255"/>
+    <xacro:macro name="H032698_inertia">
+        <inertia
+        ixx="0.000126" ixy="0.000006" ixz="0.000049"
+        iyy="0.000606" iyz="0.000017"
+        izz="0.000642"/>
+    </xacro:macro>
+
+    <!-- properties of H032558 - SHAREABLE - SWAT ARM ELBOW CAMERA ASSY -->
+    <xacro:property name="H032558_mass" value="0.378"/>
+    <xacro:macro name="H032558_inertia">
+        <inertia
+        ixx="0.001590" ixy="-0.000259" ixz="-0.000255"
+        iyy="0.000997" iyz="0.000606"
+        izz="0.001211"/>
+    </xacro:macro>
+
+    <!-- properties of H032816 - SHAREABLE - A24 DRIVE - TORQUE SENSING - A48 NUT -->
+    <xacro:property name="H032816_mass" value="0.240"/>
+    <xacro:macro name="H032816_inertia">
+        <inertia
+        ixx="0.000100" ixy="0.000000" ixz="0.000000"
+        iyy="0.000104" iyz="0.000000"
+        izz="0.000068"/>
+    </xacro:macro>
+
+    <!-- properties ofH032817 - SHAREABLE - A24 DRIVE - EMD - A48 NUT -->
+    <xacro:property name="H032817_mass" value="0.240"/>
+    <xacro:macro name="H032817_inertia">
+        <inertia
+        ixx="0.000100" ixy="0.000000" ixz="0.000000"
+        iyy="0.000104" iyz="0.000000"
+        izz="0.000068"/>
+    </xacro:macro>
+
+    <!-- properties of H032696 - SHAREABLE - DISTAL TUBE ASSY, AXIAL-RADIAL, 270MM -->
+    <xacro:property name="H032696_mass" value="0.150"/>
+    <xacro:macro name="H032696_inertia">
+        <inertia
+        ixx="0.001253" ixy="0.000000" ixz="0.000000"
+        iyy="0.001254" iyz="0.000001"
+        izz="0.000020"/>
+    </xacro:macro>
+
+    <!-- properties of H032455 - SHAREABLE - A24 DRIVE MODULE - TORQUE SENSING - EXT -->
+    <xacro:property name="H032455_mass" value="0.237"/>
+    <xacro:macro name="H032455_inertia">
+        <inertia
+        ixx="0.000096" ixy="0.000000" ixz="0.000000"
+        iyy="0.000101" iyz="0.000000"
+        izz="0.000067"/>
+    </xacro:macro>
+
+    <!-- properties of H020840 - SHAREABLE - A24 DRIVE MODULE - EMD -->
+    <xacro:property name="H020840_mass" value="0.237"/>
+    <xacro:macro name="H020840_inertia">
+        <inertia
+        ixx="0.000096" ixy="0.000000" ixz="0.000000"
+        iyy="0.000101" iyz="0.000000"
+        izz="0.000067"/>
+    </xacro:macro>
+
+    <!-- properties of H031917 - SHAREABLE - A48 PINCER ASSY, LAND -->
+    <xacro:property name="H031917_mass" value="0.597"/>
+    <xacro:macro name="H031917_inertia">
+        <inertia
+        ixx="0.000377" ixy="-0.000021" ixz="0.000100"
+        iyy="0.000556" iyz="-0.000002"
+        izz="00.000442"/>
+    </xacro:macro>
+
+    <!-- properties of H022927 - SHAREABLE - A35 PINCER FINGER, LONG, OVERMOLD ASSY -->
+    <xacro:property name="H022927_mass" value="0.069"/>
+    <xacro:macro name="H022927_inertia">
+        <inertia
+        ixx="0.000015" ixy="0.000035" ixz="0.000000"
+        iyy="0.000362" iyz="0.000000"
+        izz="0.000375"/>
+    </xacro:macro>
+
+    <!-- properties of H027206 - camera, etherent -->
+    <xacro:property name="H027206_mass" value="0.312"/>
+    <xacro:macro name="H027206_inertia">
+        <inertia
+        ixx="0.000624" ixy="-0.000052" ixz="-0.000215"
+        iyy="0.000709" iyz="0.000013"
+        izz="0.000558"/>
+    </xacro:macro>
+
+    <!-- properties of H032693 - SHAREABLE - PROXIMAL TUBE ASSY, AXIAL-AXIAL, 306MM -->
+    <xacro:property name="H032693_mass" value="0.175"/>
+    <xacro:macro name="H032693_inertia">
+        <inertia
+        ixx="0.000025" ixy="-0.000001" ixz="0.000000"
+        iyy="0.002028" iyz="0.000000"
+        izz="0.002028"/>
+    </xacro:macro>
+
+    <!-- properties of H032697 - SHAREABLE - DISTAL TUBE ASSY, AXIAL-RADIAL, 205MM -->
+    <xacro:property name="H032697_mass" value="0.112"/>
+    <xacro:macro name="H032697_inertia">
+        <inertia
+        ixx="0.000614" ixy="0.000000" ixz="0.000000"
+        iyy="0.000614" iyz="0.000000"
+        izz="0.000017"/>
+    </xacro:macro>
+
+    <!-- properties of H034794 - SHAREABLE - PEDESTAL ASSY-Q, MK4-2 -->
+    <xacro:property name="H034794_mass" value="0.886"/>
+    <xacro:macro name="H034794_inertia">
+        <inertia
+        ixx="0.001652" ixy="-0.000019" ixz="-0.000048"
+        iyy="0.002658" iyz="0.000043"
+        izz="0.002982"/>
+    </xacro:macro>
+    
+    <!-- properties of H022069 - SHAREABLE - ST DRIVE - NO TS, MK4-2 -->
+    <xacro:property name="H022069_mass" value="2.488"/>
+    <xacro:macro name="H022069_inertia">
+        <inertia
+        ixx="0.003102" ixy="0.000003" ixz="-0.000025"
+        iyy="0.003339" iyz="0.000009"
+        izz="0.002291"/>
+    </xacro:macro>
+    
+    <!-- properties of H022070 - SHAREABLE - MT DRIVE - NO TS, MK4-2 -->
+    <xacro:property name="H022070_mass" value="1.514"/>
+    <xacro:macro name="H022070_inertia">
+        <inertia
+        ixx="0.001757" ixy="0.000003" ixz="-0.000011"
+        iyy="0.001843" iyz="0.000007"
+        izz="0.001210"/>
+    </xacro:macro>
+    
+    <!-- properties of H034947 - SHAREABLE - LINK ASSY, PAINTED, ELEVATOR, PROXIMAL -->
+    <xacro:property name="H034947_mass" value="1.400"/>
+    <xacro:macro name="H034947_inertia">
+        <inertia
+        ixx="0.001003" ixy="0.000006" ixz="0.000024"
+        iyy="0.258523" iyz="0.000000"
+        izz="0.258523"/>
+    </xacro:macro>
+
+    <!-- properties of H035357 - SHAREABLE REVERSED - RING CLAMP ASSY, BUMPER -->
+    <xacro:property name="H035357_mass" value="0.144"/>
+    <xacro:macro name="H035357_inertia">
+        <inertia
+        ixx="0.000394" ixy="-0.000146" ixz="0.000000"
+        iyy="0.000160" iyz="0.000005"
+        izz="0.000461"/>
+    </xacro:macro>
+    
+    <!-- properties of H034994 - SHAREABLE - LINK ASSY, PAINTED, MANIPULATOR, PROXIMAL -->
+    <xacro:property name="H034994_mass" value="1.690"/>
+    <xacro:macro name="H034994_inertia">
+        <inertia
+        ixx="0.299973" ixy="0.000000" ixz="-0.001056"
+        iyy="0.299943" iyz="0.000489"
+        izz="0.001230"/>
+    </xacro:macro>
+    
+    <!-- properties of H034997 - SHAREABLE - LINK ASSY, PAINTED, MANIPULATOR, DISTAL -->
+    <xacro:property name="H034997_mass" value="1.150"/>
+    <xacro:macro name="H034997_inertia">
+        <inertia
+        ixx="0.189427" ixy="-0.000007" ixz="0.000135"
+        iyy="0.189424" iyz="-0.000139"
+        izz="0.000916"/>
+    </xacro:macro>
+
+    <!-- properties of H034948 - SHAREABLE - LINK ASSY, PAINTED, ELEVATOR, DISTAL -->
+    <xacro:property name="H034948_mass" value="1.840"/>
+    <xacro:macro name="H034948_inertia">
+        <inertia
+        ixx="0.001837" ixy="-0.000035" ixz="-0.008069"
+        iyy="0.415442" iyz="-0.000001"
+        izz="0.415093"/>
+    </xacro:macro>
+    
+    <!-- properties of H021435 - SHAREABLE - CRSI Proximal Tube -->
+    <xacro:property name="H021435_mass" value="0.112"/>
+    <xacro:macro name="H021435_inertia">
+        <inertia
+        ixx = "0.000005" ixy = "0.000000" ixz = "0.000000"
+        iyy = "0.000252" iyz = "0.000000"
+        izz = "0.000252"/>
+    </xacro:macro>
+    
+    <!-- properties of H021436 - SHAREABLE - CRSI Distal Tube -->
+    <xacro:property name="H021436_mass" value="0.113"/>
+    <xacro:macro name="H021436_inertia">
+        <inertia
+        ixx = "0.000020" ixy = "0.000000" ixz = "0.000000"
+        iyy = "0.000023" iyz = "0.000000"
+        izz = "0.000008"/>
+    </xacro:macro>
+    
+    <!-- properties of H021094 - SHAREABLE - CRSI A24 Pincer with Torque Sensing -->
+    <xacro:property name="H021094_mass" value="0.362"/>
+    <xacro:macro name="H021094_inertia">
+        <inertia
+        ixx = "0.000163" ixy = "0.000002" ixz = "0.000043"
+        iyy = "0.000244" iyz = "0.000003"
+        izz = "0.000205"/>
+    </xacro:macro>
+    
+    <!-- properties of H020868 - SHAREABLE - A24 Pincer Fingers -->
+    <xacro:property name="H020868_mass" value="0.067"/>
+    <xacro:macro name="H020868_inertia">
+        <inertia
+        ixx = "0.000002" ixy = "0.000003" ixz = "0.000000"
+        iyy = "0.000098" iyz = "0.000000"
+        izz = "0.000100"/>
+    </xacro:macro>
+    
+    <!-- properties of 805-H036319 – CAMERA, SMALL ARM DISTAL TUBE - SHAREABLE -  -->
+    <xacro:property name="H036319_mass" value="0.353"/>
+    <xacro:macro name="H036319_inertia">
+        <inertia
+        ixx = "0.000769" ixy = "0.000000" ixz = "-0.000114"
+        iyy = "0.000750" iyz = "-0.000030"
+        izz = "0.000437"/>
+    </xacro:macro>
+    
+    <!-- properties of H021285 - SHAREABLE - CRSI A24 Pedestal -->
+    <xacro:property name="H021285_mass" value="0.137"/>
+    <xacro:macro name="H021285_inertia">
+        <inertia
+        ixx = "0.000017" ixy = "0.000000" ixz = "-0.000022"
+        iyy = "0.000379" iyz = "0.000000"
+        izz = "0.000385"/>
+    </xacro:macro>
+</robot>
+
+

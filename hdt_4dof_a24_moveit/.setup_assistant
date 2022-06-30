@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: hdt_4dof_a24_description
+    relative_path: urdf/hdt_arm.xacro
+    xacro_args: "--inorder "
+  SRDF:
+    relative_path: config/hdt_arm.srdf
+  CONFIG:
+    author_name: Michael Sidrys
+    author_email: michael.sidrys@hdtglobal.com
+    generated_timestamp: 1652716061

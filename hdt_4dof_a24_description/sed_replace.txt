@@ -1,0 +1,10 @@
+# Find then execute sed replace recursively in current directory.
+find . -type f -exec sed -i 's/6dof_a24_pincer/4dof_a24/g' {} +
+
+# Search
+grep -irl 6dof_a24_pincer
+
+# Rename directories.  Had to run a few times as the paths to recursive directories change.  Might not need it with sed replace above.
+rename 's/6dof_a24_pincer/4dof_a24/' */*
+
+
