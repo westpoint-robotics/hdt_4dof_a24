@@ -10,7 +10,7 @@
 
   <!-- load robot description -->
   <param name="robot_description"
-    command="$(find xacro)/xacro.py '$(find hdt_4dof_a24_description)/urdf/hdt_arm.xacro'" />
+    command="$(find xacro)/xacro '$(find hdt_4dof_a24_description)/urdf/hdt_arm.xacro'" />
 
   <!-- load the hardware configuration -->
   <rosparam command="load" file="$(find hdt_4dof_a24_description)/config/hardware.yaml" />
@@ -28,7 +28,7 @@
 
 
   <!-- load the hardware interface -->
-  <node name="adroit_control" pkg="hdt_adroit_control" type="adroit_control" respawn="false" output="screen">
+  <node name="relay_control" pkg="jointstate_relay_control" type="relay_control" respawn="false" output="screen">
     <param name="robot_name" value="hdt_arm" /> 
     <param name="fake_execution" value="$(arg simulation)" /> 
   </node>

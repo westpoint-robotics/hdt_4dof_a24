@@ -72,7 +72,7 @@
   <exec_depend>message_runtime</exec_depend>
   
   <exec_depend version_gte="0.2.19">python_qt_binding</exec_depend> <!--added for qrt plugin -->
-  <exec_depend>python-rospkg</exec_depend> <!--added for qrt plugin -->
+  <exec_depend>python3-rospkg</exec_depend> <!--added for qrt plugin -->
   <exec_depend>rostopic</exec_depend> <!--added for qrt plugin -->
   <exec_depend>rqt_gui</exec_depend> <!--added for qrt plugin -->
   <exec_depend>rqt_gui_py</exec_depend> <!--added for qrt plugin -->
