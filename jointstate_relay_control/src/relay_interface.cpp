@@ -47,7 +47,7 @@ void RelayInterface::msgCallback(const sensor_msgs::JointState& msg)
   //ROS_INFO("RelayInterface:msgCallback");
   
   // lock mutex
-  std::lock_guard<std::mutex> lock(mutex_);
+  // std::lock_guard<std::mutex> lock(mutex_);
   
   last_receipt = ros::Time::now();
 
@@ -245,7 +245,7 @@ bool RelayInterface::write()
     }
 
     msg_pub_[PUB_TOPIC].publish(goal);
-    // ROS_INFO("publishing = %f, %f, %f, %f", cmd_pos_[1], cmd_pos_[2], cmd_pos_[3], cmd_pos_[4]);
+    // ROS_INFO("publishing = %f, %f, %f, %f, %f", cmd_pos_[1], cmd_pos_[2], cmd_pos_[3], cmd_pos_[4], cmd_pos_[10]);
     
     return true;
   }

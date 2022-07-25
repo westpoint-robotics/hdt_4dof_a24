@@ -14,5 +14,4 @@ while true; do
 done
 
 # start second part of bring up script
-roslaunch hdt_4dof_a24_bringup hdt_arm_bringup_2.launch controller_type:=$1
-
+roslaunch hdt_4dof_a24_bringup $@

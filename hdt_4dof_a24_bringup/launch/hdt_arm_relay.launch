@@ -7,7 +7,7 @@
   <arg name="embedded" default="false" doc="robot description and state published externally"/>
   <arg name="use_spacenav" default="false" />
   <arg name="debug" default="false" />
-  
+
   <!-- rqt console for filtering ROS logging messages by node
   <node name="rqt_console" pkg="rqt_console" type="rqt_console"/>
   -->
@@ -22,82 +22,41 @@
 
   <!-- load the hardware configuration -->
   <rosparam command="load" file="$(find hdt_4dof_a24_description)/config/hardware.yaml" />
-  
+
   <!-- load the controller configuration -->
   <rosparam command="load" file="$(find hdt_4dof_a24_description)/config/controllers.yaml" />
-  
-  <!-- load the "hardware" relay interface -->
-  <node name="relay_control" pkg="jointstate_relay_control" type="relay_control" respawn="false" output="log">
-    <param name="robot_name" value="$(arg robot_name)" /> 
-    <param name="fake_execution" value="$(arg simulation)" /> 
-  </node>
 
-  <!-- load and start controllers for trajectory control-->
-  <node name="controller_manager_spawn" pkg="controller_manager" type="controller_manager" respawn="false" output="log" args="spawn 
-  /$(arg robot_name)/joint_state_controller 
-  /$(arg robot_name)/arm_controller" />
-  
-  <!-- load but do not start controllers for joint by joint control-->
-  <node name="controller_manager_load" pkg="controller_manager" type="controller_manager" respawn="false" output="log" args="load 
-  /$(arg robot_name)/joint1_position_controller 
-  /$(arg robot_name)/joint2_position_controller 
-  /$(arg robot_name)/joint3_position_controller 
-  /$(arg robot_name)/joint4_position_controller 
-  /$(arg robot_name)/pincer_joint_position_controller 
-  /$(arg robot_name)/joint1_velocity_controller 
-  /$(arg robot_name)/joint2_velocity_controller 
-  /$(arg robot_name)/joint3_velocity_controller 
-  /$(arg robot_name)/joint4_velocity_controller 
-  /$(arg robot_name)/pincer_joint_velocity_controller" />
-
-  <!-- shell script to wait for /joint_states topic -->
-  <!-- <node name="delay_script" pkg="hdt_4dof_a24_bringup" type="delay_script.sh" args="$(arg controller_type)" output="log"/> -->
-  
-  <!-- start move group  -->
-  <include file="$(find hdt_4dof_a24_moveit)/launch/move_group.launch">
-    <arg name="allow_trajectory_execution" value="true"/>
-    <arg name="info" value="true"/>
-    <arg name="fake_execution" value="false"/>
-    <arg name="debug" value="$(arg debug)"/>
-  </include>
-
-  <!-- start rviz, rqt_multiplot -->
-  <group unless="$(arg headless)">
-    <include file="$(find hdt_4dof_a24_moveit)/launch/moveit_rviz.launch">
-      <arg name="config" value="true"/>
-      <arg name="debug" value="$(arg debug)"/>
-    </include>
-
-    <node name="rqt_multiplot" pkg="rqt_multiplot"  type="rqt_multiplot" respawn="false" output="log" 
-      args="--force-discover --multiplot-config $(find hdt_4dof_a24_bringup)/support_files/multiplot.xml"
-    />
-  </group>
-
-  <!-- start trigger_guard -->
-  <node name="trigger_guard" pkg="hdt_generic_joystick" type="trigger_guard" respawn="true" output="log"/>
-  
   <!--load parameter file mapping joystick axis to joints -->
   <!--also configures button mapping for start/stop control, etc. -->
   <rosparam command="load" file="$(eval find('hdt_4dof_a24_description') + '/config/joystick_map_' + controller_type + '.yaml')" />
   <!-- parameters that define colors used by hdt_generic_joystick in Rviz -->
   <rosparam command="load" file="$(find hdt_generic_joystick)/support_files/joystick_feedback_colors.yaml" />
-  
-  <!-- launch joystick -->
-  <node name="xbox_joystick" pkg="joy" type="joy_node">
-      <param name="dev" value="/dev/input/js0" />
-      <param name="deadzone" value="0.15" />
-      <param name="autorepeat_rate" value="10.0" />
-  </node>  
-  
-    <!-- launch space mouse -->
-  <include file="$(find spacenav_node)/launch/classic.launch" if="$(arg use_spacenav)"/>
-  
-  <!--Start the control script.  Load in xacro for position limits -->
-  <node name="generic_joystick" pkg="hdt_generic_joystick" type="generic_joystick2" respawn="false" output="log">
-    <param name="controller_prefix" value="$(arg robot_name)"/>
-    <remap from="joy" to="guarded_joy"/>
-    <param name="use_spacemouse" value="$(arg use_spacenav)"/>
-    <param name="status_message_frame" value="base_link"/>
+
+  <!-- load the "hardware" relay interface -->
+  <node name="relay_control" pkg="jointstate_relay_control" type="relay_control" respawn="false" output="log">
+    <param name="robot_name" value="$(arg robot_name)" />
+    <param name="fake_execution" value="$(arg simulation)" />
   </node>
+
+  <!-- load and start controllers for trajectory control-->
+  <node name="controller_manager_spawn" pkg="controller_manager" type="controller_manager" respawn="false" output="log" args="spawn
+  /$(arg robot_name)/joint_state_controller
+  /$(arg robot_name)/arm_controller" />
+
+  <!-- load but do not start controllers for joint by joint control-->
+  <node name="controller_manager_load" pkg="controller_manager" type="controller_manager" respawn="false" output="log" args="load
+  /$(arg robot_name)/joint1_position_controller
+  /$(arg robot_name)/joint2_position_controller
+  /$(arg robot_name)/joint3_position_controller
+  /$(arg robot_name)/joint4_position_controller
+  /$(arg robot_name)/pincer_joint_position_controller
+  /$(arg robot_name)/joint1_velocity_controller
+  /$(arg robot_name)/joint2_velocity_controller
+  /$(arg robot_name)/joint3_velocity_controller
+  /$(arg robot_name)/joint4_velocity_controller
+  /$(arg robot_name)/pincer_joint_velocity_controller" />
+
+  <!-- shell script to wait for /joint_states topic -->
+  <node name="delay_script" pkg="hdt_4dof_a24_bringup" type="delay_script.sh" args="hdt_arm_relay_2.launch robot_name:=$(arg robot_name) simulation:=$(arg simulation) debug:=$(arg debug) headless:=$(arg headless) use_spacenav:=$(arg use_spacenav)" output="log"/>
 
 </launch>

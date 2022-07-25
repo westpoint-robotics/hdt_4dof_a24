@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="robot_name" default="hdt_arm" />
+  <arg name="simulation" default="false" />
+  <arg name="debug" default="false" />
+  <arg name="headless" default="false" />
+  <arg name="use_spacenav" default="false" />
+
+  <!-- start move group  -->
+  <include file="$(find hdt_4dof_a24_moveit)/launch/move_group.launch">
+    <arg name="allow_trajectory_execution" value="true"/>
+    <arg name="info" value="true"/>
+    <arg name="fake_execution" value="$(arg simulation)"/>
+    <arg name="debug" value="$(arg debug)"/>
+  </include>
+
+  <!-- start rviz, rqt_multiplot -->
+  <group unless="$(arg headless)">
+    <include file="$(find hdt_4dof_a24_moveit)/launch/moveit_rviz.launch">
+      <arg name="config" value="true"/>
+      <arg name="debug" value="$(arg debug)"/>
+    </include>
+
+    <node name="rqt_multiplot" pkg="rqt_multiplot"  type="rqt_multiplot" respawn="false" output="log"
+      args="--force-discover --multiplot-config $(find hdt_4dof_a24_bringup)/support_files/multiplot.xml"
+    />
+  </group>
+
+  <!-- start trigger_guard -->
+  <node name="trigger_guard" pkg="hdt_generic_joystick" type="trigger_guard" respawn="true" output="log"/>
+
+  <!-- launch joystick -->
+  <node name="xbox_joystick" pkg="joy" type="joy_node">
+      <param name="dev" value="/dev/input/js0" />
+      <param name="deadzone" value="0.15" />
+      <param name="autorepeat_rate" value="10.0" />
+  </node>
+
+  <!-- launch space mouse -->
+  <include file="$(find spacenav_node)/launch/classic.launch" if="$(arg use_spacenav)"/>
+
+  <!--Start the control script.  Load in xacro for position limits -->
+  <node name="generic_joystick" pkg="hdt_generic_joystick" type="generic_joystick2" respawn="false" output="log">
+    <param name="controller_prefix" value="$(arg robot_name)"/>
+    <remap from="joy" to="guarded_joy"/>
+    <param name="use_spacemouse" value="$(arg use_spacenav)"/>
+    <param name="status_message_frame" value="base_link"/>
+  </node>
+
+</launch>

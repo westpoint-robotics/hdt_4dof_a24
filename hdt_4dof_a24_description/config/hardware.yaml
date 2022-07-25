@@ -1,6 +1,6 @@
 hdt_arm:
   hardware_interface:
-    loop_hz: 20
+    loop_hz: 10
     joints:
       - joint1
       - joint2
